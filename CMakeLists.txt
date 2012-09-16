@@ -1,0 +1,23 @@
+cmake_minimum_required(VERSION 2.8)
+
+project(vakkenranking)
+
+include_directories("${PROJECT_BINARY_DIR}")
+
+file(GLOB_RECURSE VAKKENRANKING_SOURCES src/*.cpp)
+add_executable(vakkenranking
+	${VAKKENRANKING_SOURCES}
+)
+
+add_definitions("-Wall -Wextra -Weffc++ -std=c++0x -pedantic -g -O3")
+
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
+                      "${PROJECT_SOURCE_DIR}/cmake/modules")
+
+find_package(Boost COMPONENTS system program_options REQUIRED)
+
+include_directories(${Boost_INCLUDE_DIRS})
+                    
+target_link_libraries(vakkenranking
+                      ${Boost_SYSTEM_LIBRARY}
+                      ${Boost_PROGRAM_OPTIONS_LIBRARY})
