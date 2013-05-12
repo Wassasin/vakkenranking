@@ -9,7 +9,7 @@ add_executable(vakkenranking
 	${VAKKENRANKING_SOURCES}
 )
 
-add_definitions("-Wall -Wextra -Weffc++ -std=c++0x -pedantic -g -O3")
+add_definitions("-Wall -Wextra -Weffc++ -std=c++0x -pedantic -g -O0")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
                       "${PROJECT_SOURCE_DIR}/cmake/modules")
