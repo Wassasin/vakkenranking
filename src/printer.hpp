@@ -37,6 +37,37 @@ namespace vakkenranking
 		}
 	
 	public:
+		static void print_csv(const std::vector<evaluation>& old_data, const std::vector<evaluation>& new_data)
+		{
+			const auto mapping_f = mapping::create_mapping_f(old_data);
+			const std::string sep = ",";
+			
+			for(const auto& e : new_data)
+			{
+				const auto e_old = mapping_f(e.code);
+				
+				std::cout << e.code << sep
+					<< round(e.course_grade.avg(), 1) << sep
+					<< round(e.course_grade.stdev(), 1) << sep
+					<< e.course_grade.count() << sep
+					<< round(e.teacher_grade.avg(), 1) << sep
+					<< round(e.teacher_grade.stdev(), 1) << sep
+					<< e.teacher_grade.count() << sep;
+				
+				if(e_old.to)
+					std::cout
+						<< round(e_old.to.get().course_grade.avg(), 1) << sep
+						<< round(e_old.to.get().course_grade.stdev(), 1) << sep
+						<< e_old.to.get().course_grade.count()
+						<< std::endl;
+				else
+					std::cout
+						<< sep
+						<< sep
+						<< std::endl;
+			}
+		}
+	
 		static void print(const std::vector<evaluation>& old_data, const std::vector<evaluation>& new_data)
 		{
 			const static size_t slice_count = 2;
