@@ -61,7 +61,7 @@ namespace vakkenranking
 			
 				size_t times = boost::lexical_cast<size_t>(line[1]);
 				for(size_t i = 0; i < times; ++i)
-					e.ratings.push_back(rating);
+					e.course_grade.ratings.push_back(rating);
 			}
 		}
 	

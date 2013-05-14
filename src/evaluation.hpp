@@ -1,25 +1,27 @@
 #pragma once
 
 #include <string>
-#include <vector>
+
+#include "grade.hpp"
 
 namespace vakkenranking
 {
 	struct evaluation
 	{
-		typedef double rating_t;
-	
 		std::string code, name, id, time;
-		std::vector<rating_t> ratings;
-	
+		
+		grade course_grade;
+		grade teacher_grade;
+		
 		evaluation()
 		: code()
 		, name()
 		, id()
 		, time()
-		, ratings()
+		, course_grade()
+		, teacher_grade()
 		{}
-	
+
 		evaluation(
 			const std::string& code,
 			const std::string& name,
@@ -30,35 +32,8 @@ namespace vakkenranking
 		, name(name)
 		, id(id)
 		, time(time)
-		, ratings()
+		, course_grade()
+		, teacher_grade()
 		{}
-		
-		inline size_t count() const
-		{
-			return ratings.size();
-		}
-		
-		double avg() const
-		{
-			const double c = count();
-			double result = 0.0;
-
-			for(const rating_t r : ratings)
-				result += r / c;
-			
-			return result;
-		}
-		
-		double stdev() const
-		{
-			const double c = count();
-			const double a = avg();
-			double result = 0.0;
-			
-			for(const rating_t r : ratings)
-				result += std::pow(r - a, 2.0) / c;
-		
-			return std::sqrt(result);
-		}
 	};
 }

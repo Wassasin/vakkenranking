@@ -43,7 +43,7 @@ int main(int argc, char** argv)
 		new_data.end(),
 		[&](const vakkenranking::evaluation& x) -> bool
 		{
-			return x.count() == 0;
+			return x.course_grade.count() == 0;
 		}
 	), new_data.end());
 	
@@ -52,7 +52,7 @@ int main(int argc, char** argv)
 		new_data.end(),
 		[&](const vakkenranking::evaluation& a, const vakkenranking::evaluation& b) -> bool
 		{
-			return(a.avg() > b.avg());
+			return(a.course_grade.avg() > b.course_grade.avg());
 		}
 	);
 

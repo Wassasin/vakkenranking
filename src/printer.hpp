@@ -119,7 +119,7 @@ namespace vakkenranking
 					const evaluation& e = slice[j];
 					const auto e_old = mapping_f(e.code);
 					
-					const double avg = e.avg();
+					const double avg = e.course_grade.avg();
 			
 					if(j == slice.size() - 1) //Last element in slice
 						std::cout << "<tr class=\"vakkenranking-bottom-border\">\n";
@@ -129,8 +129,8 @@ namespace vakkenranking
 					std::cout << "\t<td style=\"text-align: center\">" << n << "</td>\n"
 						<< "\t<td>" << e.name << " (" << e.code << ")</td>\n"
 						<< "\t<td>" << round(avg, 1) << "</td>\n"
-						<< "\t<td>" << e.count() << "</td>\n"
-						<< "\t<td>" << round(e.stdev(), 1) << "</td>\n";
+						<< "\t<td>" << e.course_grade.count() << "</td>\n"
+						<< "\t<td>" << round(e.course_grade.stdev(), 1) << "</td>\n";
 			
 					if(e_old.to)
 					{
@@ -138,7 +138,7 @@ namespace vakkenranking
 						const static double max_diff = 1.0;
 						const static double sig_diff = 0.4;
 			
-						const double old_avg = e_old.to.get().avg();
+						const double old_avg = e_old.to.get().course_grade.avg();
 						const double diff = avg - old_avg;
 			
 						std::cout
@@ -146,7 +146,7 @@ namespace vakkenranking
 							<< "\t<td style=\"text-align: center\">"
 							<< "<div style=\"color: ";
 			
-						if(e.count() <= threshold || e_old.to.get().count() <= threshold)
+						if(e.course_grade.count() <= threshold || e_old.to.get().course_grade.count() <= threshold)
 							std::cout << "lightgray";
 						else if(diff >= max_diff)
 							std::cout << "green";
@@ -198,7 +198,7 @@ namespace vakkenranking
 				<< "<span style=\"color: lightgray\">▼ grijs</span> = niet significant<br />\n"
 				<< "<span style=\"color: red\">▼ kleur</span> = significant<br />\n"
 				<< "! = cursus nieuw in 2012-2013<br />\n"
-//				<< "? = geen enquêteresultaten uit 2011-2012</p>\n"
+				<< "? = geen enquêteresultaten uit 2011-2012</p>\n"
 				<< "</body></html>";
 		}
 	};
