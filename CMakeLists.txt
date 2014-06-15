@@ -5,8 +5,11 @@ project(vakkenranking)
 include_directories("${PROJECT_BINARY_DIR}")
 
 file(GLOB_RECURSE VAKKENRANKING_SOURCES src/*.cpp)
+file(GLOB_RECURSE VAKKENRANKING_HEADERS src/*.hpp)
+
 add_executable(vakkenranking
 	${VAKKENRANKING_SOURCES}
+	${VAKKENRANKING_HEADERS}
 )
 
 add_definitions("-Wall -Wextra -Weffc++ -std=c++0x -pedantic -g -O0")

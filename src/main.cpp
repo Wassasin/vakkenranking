@@ -35,7 +35,7 @@ int main(int argc, char** argv)
 {
 	using namespace vakkenranking;
 	
-	auto old_data = parse_data("../data/old", summary_parser::parse);
+	auto old_data = parse_data("../data/old", complete_parser::parse);
 	auto new_data = parse_data("../data/new", complete_parser::parse);
 	
 	new_data.erase(std::remove_if(
@@ -56,7 +56,8 @@ int main(int argc, char** argv)
 		}
 	);
 
-	printer::print(old_data, new_data);
+	//printer::print(old_data, new_data);
+	printer::print_csv(old_data, new_data);
 	
 	return 0;
 }

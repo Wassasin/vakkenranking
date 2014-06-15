@@ -46,31 +46,32 @@ namespace vakkenranking
 			{
 				const auto e_old = mapping_f(e.code);
 				
-				std::cout << e.code << sep
-					<< round(e.course_grade.avg(), 1) << sep
-					<< round(e.course_grade.stdev(), 1) << sep
-					<< e.course_grade.count() << sep
-					<< round(e.teacher_grade.avg(), 1) << sep
-					<< round(e.teacher_grade.stdev(), 1) << sep
-					<< e.teacher_grade.count() << sep;
+				std::cout << '"' << e.code << '"' << sep
+					<< '"' << round(e.course_grade.avg(), 1) << '"' << sep
+					<< '"' << round(e.course_grade.stdev(), 1) << '"' << sep
+					<< '"' << e.course_grade.count() << '"' << sep
+					<< '"' << round(e.teacher_grade.avg(), 1) << '"' << sep
+					<< '"' << round(e.teacher_grade.stdev(), 1) << '"' << sep
+					<< '"' << e.teacher_grade.count() << '"' << sep;
 				
 				if(e_old.to)
 					std::cout
-						<< round(e_old.to.get().course_grade.avg(), 1) << sep
-						<< round(e_old.to.get().course_grade.stdev(), 1) << sep
-						<< e_old.to.get().course_grade.count()
+						<< '"' << round(e_old.to.get().course_grade.avg(), 1) << '"' << sep
+						<< '"' << round(e_old.to.get().course_grade.stdev(), 1) << '"' << sep
+						<< '"' << e_old.to.get().course_grade.count() << '"'
 						<< std::endl;
 				else
 					std::cout
-						<< sep
-						<< sep
+						<< '"' << '"' << sep
+						<< '"' << '"' << sep
+						<< '"' << '"'
 						<< std::endl;
 			}
 		}
 	
 		static void print(const std::vector<evaluation>& old_data, const std::vector<evaluation>& new_data)
 		{
-			const static size_t slice_count = 2;
+			const static size_t slice_count = 3;
 	
 			std::vector<std::vector<evaluation>> slices(slice_count);
 			const size_t slice_size = ceil((double)new_data.size() / (double)slice_count);
@@ -84,14 +85,19 @@ namespace vakkenranking
 
 			std::cout << "<!DOCTYPE html><html>\n<head>\n"
 				<< "\t<meta charset=\"UTF-8\" />\n"
+				<< "\t<title>OLC III - Vakkenranking najaar 2013-2014</title>\n"
 				<< "\t<link rel=\"stylesheet\" type=\"text/css\" media=\"all\" href=\"http://olciii.nl/wp-content/themes/twentyeleven/style.css\">\n"
 				<< "\t<style>\n"
+				<< "\t\t.entry-content {\n"
+				<< "\t\t\tpadding: 0;\n"
+				<< "\t\t}\n"
+				<< "\n"
 				<< "\t\t.entry-content table, .comment-content table {\n"
 				<< "\t\t\tborder-bottom: none;\n"
 				<< "\t\t}\n"
 				<< "\n"
 				<< "\t\t.entry-content td, .comment-content td {\n"
-				<< "\t\t\tpadding: 6px 10px 6px 0;\n"
+				<< "\t\t\tpadding: 7px 6px 7px 0;\n"
 				<< "\t\t}\n"
 				<< "\n"
 				<< "\t\t.vakkenranking-bottom-border td {\n"
@@ -100,14 +106,14 @@ namespace vakkenranking
 				<< "\n"
 				<< "\t\tbody {\n"
 				<< "\t\t\tbackground: none;\n"
-				<< "\t\t\tfont: 14px \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n"
+				<< "\t\t\tfont: 13px \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n"
 				<< "\t\t}\n"
 				<< "\t</style>\n"
 				<< "</head>\n"
 				<< "<body>\n"
 				<< "<header class=\"entry-header\">\n"
-				<< "\t<h1 class=\"entry-title\">Vakkenranking Informatica & Informatiekunde najaar 2012-2013</h1>\n"
-				<< "\t<h2>Opleidingscommissie Informatica & Informatiekunde 2012-2013</h2>\n"
+				<< "\t<h1 class=\"entry-title\">Vakkenranking Informatica najaar 2013-2014</h1>\n"
+				<< "\t<h2>Opleidingscommissie Informatica & Informatiekunde 2013-2014</h2>\n"
 				<< "</header>\n"
 				<< "<br />\n"
 				<< "<div class=\"entry-content\" role=\"main\">\n";
@@ -118,7 +124,7 @@ namespace vakkenranking
 	
 				if(i == 0)
 				{
-					std::cout << "<table style=\"width: 49%; float: left\">\n";
+					std::cout << "<table style=\"width: 33%; float: left\">\n";
 			
 					std::cout << "<tr>\n"
 						<< "\t<td style=\"text-align: center\"><strong>#</strong></td>\n"
@@ -132,7 +138,7 @@ namespace vakkenranking
 				}
 				else
 				{
-					std::cout << "<table style=\"padding-left: 2%; width: 51%; float: left\">\n";
+					std::cout << "<table style=\"padding-left: 2%; width: 33%; float: left\">\n";
 			
 					std::cout << "<tr>\n"
 						<< "\t<td style=\"text-align: center\"><strong>#</strong></td>\n"
@@ -223,13 +229,12 @@ namespace vakkenranking
 				std::cout << "</table>\n" << std::endl;
 			}
 	
-			std::cout << "<div style=\"clear: both;\">&nbsp;</div>\n"
-				<< "<br />\n"
+			std::cout << "<div style=\"clear: both; font-size: 0;\">&nbsp;</div>\n"
 				<< "<p>▲ = 0.4 ≤ δ ≤ 1.0; ▲▲ = δ > 1.0<br />\n"
-				<< "<span style=\"color: lightgray\">▼ grijs</span> = niet significant<br />\n"
-				<< "<span style=\"color: red\">▼ kleur</span> = significant<br />\n"
-				<< "! = cursus nieuw in 2012-2013<br />\n"
-				<< "? = geen enquêteresultaten uit 2011-2012</p>\n"
+				<< "<span style=\"color: lightgray\">▼ grijs</span> = niet significant aantal deelnemers<br />\n"
+				<< "<span style=\"color: red\">▼ kleur</span> = significant aantal deelnemers<br />\n"
+				<< "! = cursus nieuw in 2013-2014<br />\n"
+				<< "? = geen enquêteresultaten uit 2012-2013</p>\n"
 				<< "</body></html>";
 		}
 	};

@@ -14,14 +14,13 @@ namespace vakkenranking
 	{
 		static evaluation parse_filename(const std::string& str)
 		{
-			//Resultaten_Vragenlijst_44773_Functioneel Programmeren_IBC006 (2012-01-23)_xls.xls.csv
-			const static boost::regex r("Resultaten_Vragenlijst_([0-9]+)_(.+)_(?:NWI-)?([^\\_^-]+) \\((.+)\\)_xls\\.xls\\.csv");
+			const static boost::regex r("Antwoorden_Vragenlijst_(?:NWI-)?([^\\_^-]+) \\((.+)\\)_([0-9]+)_(.+)\\.csv");
 		
 			boost::smatch match;
 			if(!boost::regex_match(str, match, r))
-				throw std::runtime_error(std::string("Can not parse filename: ") + str);
+				throw std::runtime_error(std::string("Can not parse filename (summary): ") + str);
 		
-			return evaluation(match[3], match[2], match[1], match[4]);
+			return evaluation(match[1], match[4], match[3], match[2]);
 		}
 		
 		static bool check_rating_row(const std::vector<std::string>& line, size_t& rating)

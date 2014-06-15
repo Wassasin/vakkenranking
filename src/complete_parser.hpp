@@ -17,11 +17,11 @@ namespace vakkenranking
 		static evaluation parse_filename(const std::string& str)
 		{
 			//Antwoorden_Vragenlijst_NWI-I00032 (2013-01-29)_67288_Geavanceerd Programmeren.xls.csv
-			const static boost::regex r("Antwoorden_Vragenlijst_(?:NWI-)?([^\\_^-]+) \\((.+)\\)_([0-9]+)_(.+).xls\\.csv");
+			const static boost::regex r(".*_(?:NWI-)?([^\\_^-]+) \\((.+)\\)_([0-9]+)_(.+)\\.csv");
 		
 			boost::smatch match;
 			if(!boost::regex_match(str, match, r))
-				throw std::runtime_error(std::string("Can not parse filename: ") + str);
+				throw std::runtime_error(std::string("Can not parse filename (complete): ") + str);
 		
 			return evaluation(match[1], match[4], match[3], match[2]);
 		}
