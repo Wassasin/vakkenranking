@@ -85,7 +85,7 @@ namespace vakkenranking
 
 			std::cout << "<!DOCTYPE html><html>\n<head>\n"
 				<< "\t<meta charset=\"UTF-8\" />\n"
-				<< "\t<title>OLC III - Vakkenranking najaar 2013-2014</title>\n"
+				<< "\t<title>OLC III - Vakkenranking 2013-2014</title>\n"
 				<< "\t<link rel=\"stylesheet\" type=\"text/css\" media=\"all\" href=\"http://olciii.nl/wp-content/themes/twentyeleven/style.css\">\n"
 				<< "\t<style>\n"
 				<< "\t\t.entry-content {\n"
@@ -108,12 +108,22 @@ namespace vakkenranking
 				<< "\t\t\tbackground: none;\n"
 				<< "\t\t\tfont: 13px \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n"
 				<< "\t\t}\n"
+				<< "\t\ttable.legend {\n"
+				<< "\t\t\twidth: 30%;\n"
+				<< "\t\t}\n"
+				<< "\t\ttable.legend td {\n"
+				<< "\t\t\tborder: none;\n"
+				<< "\t\t\tpadding: 3px 2px 3px 0px;\n"
+				<< "\t\t}\n"
+				<< "\t\ttd.legend-left {\n"
+				<< "\t\t\ttext-align: center;\n"
+				<< "\t\t}\n"
 				<< "\t</style>\n"
 				<< "</head>\n"
 				<< "<body>\n"
 				<< "<header class=\"entry-header\">\n"
-				<< "\t<h1 class=\"entry-title\">Vakkenranking Informatica najaar 2013-2014</h1>\n"
-				<< "\t<h2>Opleidingscommissie Informatica & Informatiekunde 2013-2014</h2>\n"
+				<< "\t<h1 class=\"entry-title\">Vakkenranking Informatica 2013-2014</h1>\n"
+				<< "\t<h2>door Wouter Geraedts &lt;radboud@woutergeraedts.nl&gt;</h2>\n"
 				<< "</header>\n"
 				<< "<br />\n"
 				<< "<div class=\"entry-content\" role=\"main\">\n";
@@ -128,7 +138,8 @@ namespace vakkenranking
 			
 					std::cout << "<tr>\n"
 						<< "\t<td style=\"text-align: center\"><strong>#</strong></td>\n"
-						<< "\t<td><strong>Vak (vakcode)</strong></td>\n"
+						<< "\t<td><strong>Code</strong></td>\n"
+						<< "\t<td><strong>Naam</strong></td>\n"
 						<< "\t<td><strong>x</strong></td>\n"
 						<< "\t<td><strong>n</strong></td>\n"
 						<< "\t<td><strong>σ</strong></td>\n"
@@ -142,7 +153,8 @@ namespace vakkenranking
 			
 					std::cout << "<tr>\n"
 						<< "\t<td style=\"text-align: center\"><strong>#</strong></td>\n"
-						<< "\t<td><strong>Vak (vakcode)</strong></td>\n"
+						<< "\t<td><strong>Code</strong></td>\n"
+						<< "\t<td><strong>Naam</strong></td>\n"
 						<< "\t<td><strong>x</strong></td>\n"
 						<< "\t<td><strong>n</strong></td>\n"
 						<< "\t<td><strong>σ</strong></td>\n"
@@ -164,7 +176,8 @@ namespace vakkenranking
 						std::cout << "<tr>\n";
 			
 					std::cout << "\t<td style=\"text-align: center\">" << n << "</td>\n"
-						<< "\t<td>" << e.name << " (" << e.code << ")</td>\n"
+						<< "\t<td>" << e.code << "</td>\n"
+						<< "\t<td>" << e.name << "</td>\n"
 						<< "\t<td>" << round(avg, 1) << "</td>\n"
 						<< "\t<td>" << e.course_grade.count() << "</td>\n"
 						<< "\t<td>" << round(e.course_grade.stdev(), 1) << "</td>\n";
@@ -184,7 +197,7 @@ namespace vakkenranking
 							<< "<div style=\"color: ";
 			
 						if(e.course_grade.count() <= threshold || e_old.to.get().course_grade.count() <= threshold)
-							std::cout << "lightgray";
+							std::cout << "#BBB";
 						else if(diff >= max_diff)
 							std::cout << "green";
 						else if(diff >= sig_diff)
@@ -230,11 +243,13 @@ namespace vakkenranking
 			}
 	
 			std::cout << "<div style=\"clear: both; font-size: 0;\">&nbsp;</div>\n"
-				<< "<p>▲ = 0.4 ≤ δ ≤ 1.0; ▲▲ = δ > 1.0<br />\n"
-				<< "<span style=\"color: lightgray\">▼ grijs</span> = niet significant aantal deelnemers<br />\n"
-				<< "<span style=\"color: red\">▼ kleur</span> = significant aantal deelnemers<br />\n"
-				<< "! = cursus nieuw in 2013-2014<br />\n"
-				<< "? = geen enquêteresultaten uit 2012-2013</p>\n"
+				<< "<table class=\"legend\">\n"
+				<< "<tr><td class=\"legend-left\">▲</td><td>&rarr;</td><td>0.4 ≤ δ ≤ 1.0</td></tr>\n"
+				<< "<tr><td class=\"legend-left\">▲▲</td><td>&rarr;</td><td>δ > 1.0</td></tr>\n"
+				<< "<tr><td class=\"legend-left\"><span style=\"color: #BBB\">▼ grijs</span></td><td>&rarr;</td><td>niet significant aantal deelnemers</td></tr>\n"
+				<< "<tr><td class=\"legend-left\"><span style=\"color: red\">▼ kleur</span></td><td>&rarr;</td><td>significant aantal deelnemers</td></tr>\n"
+				<< "<tr><td class=\"legend-left\">!</td><td>&rarr;</td><td>cursus nieuw in 2013-2014</td></tr>\n"
+				<< "<tr><td class=\"legend-left\">?</td><td>&rarr;</td><td>geen enquêteresultaten uit 2012-2013</td></tr>\n"
 				<< "</body></html>";
 		}
 	};
