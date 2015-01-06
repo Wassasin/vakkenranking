@@ -45,12 +45,18 @@ class cli
 		using namespace boost::filesystem;
 
 		std::vector<evaluation> result;
+		std::set<std::string> codes;
 
 		path p(str);
 
 		const directory_iterator it_end;
 		for(directory_iterator it(p); it != it_end; ++it)
+		{
+			std::cerr << "Parsing " << it->path() << std::endl;
 			result.emplace_back(parse_f(it->path()));
+			if(!codes.insert(result[result.size()-1].code).second)
+				throw std::runtime_error(std::string("Already added course ")+result[result.size()-1].code);
+		}
 
 		return result;
 	}
