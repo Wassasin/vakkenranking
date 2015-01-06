@@ -19,3 +19,9 @@
 *.exe
 *.out
 *.app
+
+# Misc
+archive/
+data/
+build/
+CMakeLists.txt*
