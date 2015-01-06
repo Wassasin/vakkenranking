@@ -19,27 +19,36 @@ namespace vakkenranking
 		size_t last_quote = buffer.find_first_of('"');
 		bool inside_quotes = false;
 	
-		while(std::getline(s, buffer))
+		try
 		{
-			while(last_quote != std::string::npos)
+			while(std::getline(s, buffer))
 			{
-				inside_quotes = !inside_quotes;
-				last_quote = buffer.find_first_of('"', last_quote+1);
-			}
+				linenr++;
+				while(last_quote != std::string::npos)
+				{
+					inside_quotes = !inside_quotes;
+					last_quote = buffer.find_first_of('"', last_quote+1);
+				}
 
-			line.append(buffer);
+				line.append(buffer);
 
-			if(inside_quotes)
-			{
-				line.append("\n");
-				continue;
+				if(inside_quotes)
+				{
+					line.append("\n");
+					continue;
+				}
+
+				boost::tokenizer<boost::escaped_list_separator<char>> tok(line);
+				result.assign(tok.begin(), tok.end());
+
+				return true;
 			}
-		
-			boost::tokenizer<boost::escaped_list_separator<char>> tok(line);
-			result.assign(tok.begin(), tok.end());
-		
-			return true;
+		} catch(boost::escaped_list_error e)
+		{
+			std::cerr << "Exception when parsing line " << linenr << "." << std::endl;
+			throw e;
 		}
+
 		
 		return false;
 	}
