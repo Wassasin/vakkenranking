@@ -17,10 +17,12 @@ namespace vakkenranking
 		static evaluation parse_filename(const std::string& str)
 		{
 			//Antwoorden_Vragenlijst_NWI-I00032 (2013-01-29)_67288_Geavanceerd Programmeren.xls.csv
-			const static boost::regex r(".*_(?:NWI-)?([^\\_^-]+) \\((.+)\\)_([0-9]+)_(.+)\\.csv");
-		
+			//Results_survey_NWI-IBC017_2014-11-04_758478_Calculus and Probability Theory.csv
+			const static boost::regex r1(".*_(?:NWI-)?([^\\_^-]+) \\((.+)\\)_([0-9]+)_(.+)\\.csv");
+			const static boost::regex r2(".*_(?:NWI-)?([^\\_^-]+)_(.+)_([0-9]+)_(.+)\\.csv");
+
 			boost::smatch match;
-			if(!boost::regex_match(str, match, r))
+			if(!boost::regex_match(str, match, r1) && !boost::regex_match(str, match, r2))
 				throw std::runtime_error(std::string("Can not parse filename (complete): ") + str);
 		
 			return evaluation(match[1], match[4], match[3], match[2]);
@@ -30,23 +32,25 @@ namespace vakkenranking
 		{
 			const static std::vector<std::string> keys = {
 				"[Ik geef deze cursus het volgende rapportcijfer] Ik geef deze cursus het volgende rapportcijfer",
+				"Ik geef deze cursus het volgende rapportcijfer [Ik geef deze cursus het volgende rapportcijfer]",
 				"[I would rate this course] On a scale from 1 to 10 (10 being excellent) I would rate this course"
 			};
 			
-			return find_key(line, keys, path);
+			return find_key(line, keys, path, "course_grade");
 		}
 		
 		static size_t find_teacher_grade_key(const std::vector<std::string>& line, const std::string& path)
 		{
 			const static std::vector<std::string> keys = {
 				"[Ik geef de docent(en) het volgende rapportcijfer] Ik geef de docent(en) het volgende rapportcijfer",
+				"Ik geef de docent(en) het volgende rapportcijfer [Ik geef de docent(en) het volgende rapportcijfer]",
 				"[I would rate the lecturer(s)/teacher(s)] On a scale from 1 to 10 (10 being excellent) I would rate the lecturer(s)/teacher(s)"
 			};
 			
-			return find_key(line, keys, path);
+			return find_key(line, keys, path, "teacher_grade");
 		}
 		
-		static size_t find_key(const std::vector<std::string>& line, const std::vector<std::string>& keys, const std::string& path)
+		static size_t find_key(const std::vector<std::string>& line, const std::vector<std::string>& keys, const std::string& path, const std::string& function_name)
 		{
 			for(const auto& key : keys)
 			{
@@ -55,7 +59,7 @@ namespace vakkenranking
 					return key_i;
 			}
 			
-			throw std::runtime_error(std::string("Can not find key in ") + path);
+			throw std::runtime_error(std::string("Can not find key for ") + function_name + " in " + path);
 		}
 		
 		static void parse_file(evaluation& e, const std::string& path)
@@ -71,8 +75,10 @@ namespace vakkenranking
 				course_grade_key_i = find_course_grade_key(line, path);
 				teacher_grade_key_i = find_teacher_grade_key(line, path);
 			}
-						
-			for(std::vector<std::string> line; parser.read(line);)
+
+			size_t i = 0;
+			for(std::vector<std::string> line; parser.read(line); ++i)
+			{
 				if(line.size() > 1)
 				{
 					if(line.at(course_grade_key_i) != "") //Answer has not been filled in
@@ -81,6 +87,7 @@ namespace vakkenranking
 					if(line.at(teacher_grade_key_i) != "") //Answer has not been filled in
 						e.teacher_grade.ratings.push_back(boost::lexical_cast<double>(line.at(teacher_grade_key_i)));
 				}
+			}
 		}
 	
 		void operator=(complete_parser&) = delete;
