@@ -16,32 +16,32 @@ namespace vakkenranking
 	{
 		std::string line, buffer;
 	
-		size_t last_quote = buffer.find_first_of('"');
-		bool inside_quotes = false;
-	
 		try
 		{
+			bool inside_quotes = false;
 			while(std::getline(s, buffer))
 			{
 				linenr++;
-				while(last_quote != std::string::npos)
+
 				{
-					inside_quotes = !inside_quotes;
-					last_quote = buffer.find_first_of('"', last_quote+1);
+					size_t last_quote = buffer.find_first_of('"');
+					while(last_quote != std::string::npos)
+					{
+						inside_quotes = !inside_quotes;
+						last_quote = buffer.find_first_of('"', last_quote+1);
+					}
 				}
 
 				line.append(buffer);
 
-				if(inside_quotes)
+				if(!inside_quotes)
 				{
-					line.append("\n");
-					continue;
+					boost::tokenizer<boost::escaped_list_separator<char>> tok(line);
+					result.assign(tok.begin(), tok.end());
+					return true;
 				}
 
-				boost::tokenizer<boost::escaped_list_separator<char>> tok(line);
-				result.assign(tok.begin(), tok.end());
-
-				return true;
+				line.append("\n");
 			}
 		} catch(boost::escaped_list_error e)
 		{
@@ -49,7 +49,6 @@ namespace vakkenranking
 			throw e;
 		}
 
-		
 		return false;
 	}
 }
