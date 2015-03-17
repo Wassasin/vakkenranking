@@ -124,15 +124,6 @@ class cli
 		auto old_data = parse_data(opt.datadir+"/old", complete_parser::parse);
 		auto new_data = parse_data(opt.datadir+"/new", complete_parser::parse);
 
-		new_data.erase(std::remove_if(
-			new_data.begin(),
-			new_data.end(),
-			[&](const evaluation& x) -> bool
-			{
-				return x.course_grade.count() == 0;
-			}
-		), new_data.end());
-
 		std::sort(
 			new_data.begin(),
 			new_data.end(),
