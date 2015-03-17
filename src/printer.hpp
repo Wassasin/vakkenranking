@@ -86,7 +86,7 @@ namespace vakkenranking
 			std::cout << "<!DOCTYPE html><html>\n<head>\n"
 				<< "\t<meta charset=\"UTF-8\" />\n"
 				<< "\t<title>OLC III - Vakkenranking 2013-2014</title>\n"
-				<< "\t<link rel=\"stylesheet\" type=\"text/css\" media=\"all\" href=\"http://olciii.nl/wp-content/themes/twentyeleven/style.css\">\n"
+				<< "\t<link rel=\"stylesheet\" type=\"text/css\" media=\"all\" href=\"http://olc.cs.ru.nl/assets/twentyeleven.css\">\n"
 				<< "\t<style>\n"
 				<< "\t\t.entry-content {\n"
 				<< "\t\t\tpadding: 0;\n"
@@ -250,6 +250,7 @@ namespace vakkenranking
 				<< "<tr><td class=\"legend-left\"><span style=\"color: red\">▼ kleur</span></td><td>&rarr;</td><td>significant aantal deelnemers</td></tr>\n"
 				<< "<tr><td class=\"legend-left\">!</td><td>&rarr;</td><td>cursus nieuw in 2013-2014</td></tr>\n"
 				<< "<tr><td class=\"legend-left\">?</td><td>&rarr;</td><td>geen enquêteresultaten uit 2012-2013</td></tr>\n"
+				<< "</table></div>"
 				<< "</body></html>";
 		}
 	};
