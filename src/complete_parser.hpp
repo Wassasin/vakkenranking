@@ -33,7 +33,8 @@ namespace vakkenranking
 			const static std::vector<std::string> keys = {
 				"[Ik geef deze cursus het volgende rapportcijfer] Ik geef deze cursus het volgende rapportcijfer",
 				"Ik geef deze cursus het volgende rapportcijfer [Ik geef deze cursus het volgende rapportcijfer]",
-				"[I would rate this course] On a scale from 1 to 10 (10 being excellent) I would rate this course"
+				"[I would rate this course] On a scale from 1 to 10 (10 being excellent) I would rate this course",
+				"On a scale from 1 to 10 (10 being excellent) I would rate this course [I would rate this course]"
 			};
 			
 			return find_key(line, keys, path, "course_grade");
@@ -44,7 +45,8 @@ namespace vakkenranking
 			const static std::vector<std::string> keys = {
 				"[Ik geef de docent(en) het volgende rapportcijfer] Ik geef de docent(en) het volgende rapportcijfer",
 				"Ik geef de docent(en) het volgende rapportcijfer [Ik geef de docent(en) het volgende rapportcijfer]",
-				"[I would rate the lecturer(s)/teacher(s)] On a scale from 1 to 10 (10 being excellent) I would rate the lecturer(s)/teacher(s)"
+				"[I would rate the lecturer(s)/teacher(s)] On a scale from 1 to 10 (10 being excellent) I would rate the lecturer(s)/teacher(s)",
+				"On a scale from 1 to 10 (10 being excellent) I would rate the lecturer(s)/teacher(s) [I would rate the lecturer(s)/teacher(s)]"
 			};
 			
 			return find_key(line, keys, path, "teacher_grade");

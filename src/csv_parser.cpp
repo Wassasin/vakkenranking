@@ -1,5 +1,6 @@
 #include "csv_parser.hpp"
 
+#include <iostream>
 #include <stdexcept>
 #include <boost/tokenizer.hpp>
 
