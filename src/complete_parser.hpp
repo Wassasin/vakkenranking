@@ -113,20 +113,19 @@ namespace vakkenranking
 
 					assert(teacher_grade_key_is.size() > 0);
 
-					double teacher_grade_tmp = 0.0;
-					size_t teacher_count = 0;
-					for(std::pair<std::string, size_t> teacher_kvp : teacher_grade_key_is)
+					for(std::pair<std::string, size_t> teacher_p : teacher_grade_key_is)
 					{
-						size_t teacher_grade_key_i = teacher_kvp.second;
+						std::string& teacher_str(teacher_p.first);
+						size_t teacher_grade_key_i = teacher_p.second;
 						if(line.at(teacher_grade_key_i) == "") //Answer has not been filled in
 							continue;
 
-						teacher_grade_tmp += boost::lexical_cast<double>(line.at(teacher_grade_key_i));
-						++teacher_count;
-					}
+						double teacher_grade = boost::lexical_cast<double>(line.at(teacher_grade_key_i));
+						if(e.teachers_grade.find(teacher_str) == e.teachers_grade.end())
+							e.teachers_grade.insert(std::make_pair(teacher_str, grade()));
 
-					if(teacher_count > 0)
-						e.teacher_grade.ratings.push_back(teacher_grade_tmp / (double)teacher_count);
+						e.teachers_grade[teacher_str].ratings.emplace_back(teacher_grade);
+					}
 				}
 			}
 		}

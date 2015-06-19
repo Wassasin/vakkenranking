@@ -46,13 +46,19 @@ namespace vakkenranking
 			{
 				const auto e_old = mapping_f(e.code);
 				
+				grade teacher_grade;
+				for(auto const& g : e.teachers_grade)
+					teacher_grade.ratings.insert(teacher_grade.ratings.end(), g.second.ratings.begin(), g.second.ratings.end());
+
+				double teacher_count = (double)teacher_grade.ratings.size() / e.teachers_grade.size(); // Divided by number of teachers
+
 				std::cout << '"' << e.code << '"' << sep
 					<< '"' << round(e.course_grade.avg(), 1) << '"' << sep
 					<< '"' << round(e.course_grade.stdev(), 1) << '"' << sep
 					<< '"' << e.course_grade.count() << '"' << sep
-					<< '"' << round(e.teacher_grade.avg(), 1) << '"' << sep
-					<< '"' << round(e.teacher_grade.stdev(), 1) << '"' << sep
-					<< '"' << e.teacher_grade.count() << '"' << sep;
+					<< '"' << round(teacher_grade.avg(), 1) << '"' << sep
+					<< '"' << round(teacher_grade.stdev(), 1) << '"' << sep
+					<< '"' << teacher_count << '"' << sep;
 				
 				if(e_old.to)
 					std::cout

@@ -11,7 +11,7 @@ namespace vakkenranking
 		std::string code, name, id, time;
 		
 		grade course_grade;
-		grade teacher_grade;
+		std::map<std::string, grade> teachers_grade;
 		
 		evaluation()
 		: code()
@@ -19,7 +19,7 @@ namespace vakkenranking
 		, id()
 		, time()
 		, course_grade()
-		, teacher_grade()
+		, teachers_grade()
 		{}
 
 		evaluation(
@@ -33,7 +33,7 @@ namespace vakkenranking
 		, id(id)
 		, time(time)
 		, course_grade()
-		, teacher_grade()
+		, teachers_grade()
 		{}
 	};
 }
