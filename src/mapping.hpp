@@ -9,6 +9,7 @@
 #include <memory>
 
 #include <boost/optional.hpp>
+#include <boost/algorithm/string.hpp>
 
 namespace vakkenranking
 {
@@ -52,6 +53,11 @@ namespace vakkenranking
 		void operator=(mapping&) = delete;
 		mapping() = delete;
 		
+		inline static std::string trim(std::string const& str)
+		{
+			return boost::algorithm::trim_copy(str);
+		}
+
 		static std::shared_ptr<mapping_t> load_mapping()
 		{
 			csv_parser parser("../data/mapping.csv");
@@ -60,9 +66,9 @@ namespace vakkenranking
 			for(std::vector<std::string> line; parser.read(line);)
 			{
 				if(line[1] == "new")
-					result->insert(std::pair<code_t, result_t<code_t>>(line[0], result_t<code_t>()));
+					result->insert(std::pair<code_t, result_t<code_t>>(trim(line[0]), result_t<code_t>()));
 				else
-					result->insert(std::pair<code_t, result_t<code_t>>(line[0], result_t<code_t>(type_e::iteration, line[1])));
+					result->insert(std::pair<code_t, result_t<code_t>>(trim(line[0]), result_t<code_t>(type_e::iteration, trim(line[1]))));
 			}
 			
 			return result;

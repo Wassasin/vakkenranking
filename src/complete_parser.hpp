@@ -34,12 +34,32 @@ namespace vakkenranking
 				"[Ik geef deze cursus het volgende rapportcijfer] Ik geef deze cursus het volgende rapportcijfer",
 				"Ik geef deze cursus het volgende rapportcijfer [Ik geef deze cursus het volgende rapportcijfer]",
 				"[I would rate this course] On a scale from 1 to 10 (10 being excellent) I would rate this course",
-				"On a scale from 1 to 10 (10 being excellent) I would rate this course [I would rate this course]"
+				"On a scale from 1 to 10 (10 being excellent) I would rate this course [I would rate this course]",
+				"Rating [I would rate this course overall as]"
 			};
 			
 			return find_key(line, keys, path, "course_grade");
 		}
 		
+		static std::vector<std::pair<std::string, size_t>> find_teacher_grade_keys(const std::vector<std::string>& line)
+		{
+			boost::smatch what;
+			static const boost::regex match_teacher("I would rate the performance of the lecturer\\(s\\)/teacher\\(s\\) as \\[(.+)\\]");
+
+			std::vector<std::pair<std::string, size_t>> result;
+
+			size_t i = 0;
+			for(auto const& col : line)
+			{
+				if(boost::regex_match(col, what, match_teacher))
+					result.emplace_back(what[1], i);
+
+				++i;
+			}
+
+			return result;
+		}
+
 		static size_t find_teacher_grade_key(const std::vector<std::string>& line, const std::string& path)
 		{
 			const static std::vector<std::string> keys = {
@@ -67,15 +87,20 @@ namespace vakkenranking
 		static void parse_file(evaluation& e, const std::string& path)
 		{
 			csv_parser parser(path);
-			size_t course_grade_key_i, teacher_grade_key_i;
-			
+			size_t course_grade_key_i;
+
+			std::vector<std::pair<std::string, size_t>> teacher_grade_key_is;
+
 			{
 				std::vector<std::string> line;
 				if(!parser.read(line))
 					throw std::runtime_error("No headerline");
 				
 				course_grade_key_i = find_course_grade_key(line, path);
-				teacher_grade_key_i = find_teacher_grade_key(line, path);
+
+				teacher_grade_key_is = find_teacher_grade_keys(line);
+				if(teacher_grade_key_is.empty())
+					teacher_grade_key_is.emplace_back("all", find_teacher_grade_key(line, path));
 			}
 
 			size_t i = 0;
@@ -85,9 +110,23 @@ namespace vakkenranking
 				{
 					if(line.at(course_grade_key_i) != "") //Answer has not been filled in
 						e.course_grade.ratings.push_back(boost::lexical_cast<double>(line.at(course_grade_key_i)));
-					
-					if(line.at(teacher_grade_key_i) != "") //Answer has not been filled in
-						e.teacher_grade.ratings.push_back(boost::lexical_cast<double>(line.at(teacher_grade_key_i)));
+
+					assert(teacher_grade_key_is.size() > 0);
+
+					double teacher_grade_tmp = 0.0;
+					size_t teacher_count = 0;
+					for(std::pair<std::string, size_t> teacher_kvp : teacher_grade_key_is)
+					{
+						size_t teacher_grade_key_i = teacher_kvp.second;
+						if(line.at(teacher_grade_key_i) == "") //Answer has not been filled in
+							continue;
+
+						teacher_grade_tmp += boost::lexical_cast<double>(line.at(teacher_grade_key_i));
+						++teacher_count;
+					}
+
+					if(teacher_count > 0)
+						e.teacher_grade.ratings.push_back(teacher_grade_tmp / (double)teacher_count);
 				}
 			}
 		}
