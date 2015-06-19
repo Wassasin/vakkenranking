@@ -47,6 +47,7 @@ namespace vakkenranking
 		} catch(boost::escaped_list_error e)
 		{
 			std::cerr << "Exception when parsing line " << linenr << "." << std::endl;
+			std::cerr << "This is often caused by unescaped backslashes near that line." << std::endl;
 			throw e;
 		}
 
