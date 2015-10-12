@@ -35,7 +35,8 @@ namespace vakkenranking
 				"Ik geef deze cursus het volgende rapportcijfer [Ik geef deze cursus het volgende rapportcijfer]",
 				"[I would rate this course] On a scale from 1 to 10 (10 being excellent) I would rate this course",
 				"On a scale from 1 to 10 (10 being excellent) I would rate this course [I would rate this course]",
-				"Rating [I would rate this course overall as]"
+				"Rating [I would rate this course overall as]",
+				"Cijfer [Ik geef deze cursus als geheel het volgende cijfer]"
 			};
 			
 			return find_key(line, keys, path, "course_grade");
@@ -44,16 +45,23 @@ namespace vakkenranking
 		static std::vector<std::pair<std::string, size_t>> find_teacher_grade_keys(const std::vector<std::string>& line)
 		{
 			boost::smatch what;
-			static const boost::regex match_teacher("I would rate the performance of the lecturer\\(s\\)/teacher\\(s\\) as \\[(.+)\\]");
-
 			std::vector<std::pair<std::string, size_t>> result;
-
 			size_t i = 0;
+
+			const static std::vector<std::string> regexes = {
+				"I would rate the performance of the lecturer\\(s\\)/teacher\\(s\\) as \\[(.+)\\]",
+				"Ik geef de docent\\(en\\) het volgende cijfer \\[(.+)\\]"
+			};
+
 			for(auto const& col : line)
 			{
-				if(boost::regex_match(col, what, match_teacher))
-					result.emplace_back(what[1], i);
+				for (const auto& regex: regexes)
+				{
+				        const boost::regex match_teacher(regex);
+					if(boost::regex_match(col, what, match_teacher))
+						result.emplace_back(what[1], i);
 
+				}
 				++i;
 			}
 
