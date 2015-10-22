@@ -138,7 +138,8 @@ namespace vakkenranking
 				<< "<body>\n"
 				<< "<header class=\"entry-header\">\n"
 				<< "\t<h1 class=\"entry-title\">Vakkenranking Informatica " << (year - 1) << "-" << (year) << "</h1>\n"
-				<< "\t<h2>door Wouter Geraedts &lt;radboud@woutergeraedts.nl&gt;</h2>\n"
+				<< "\t<h2>Opleidingscommissie Informatica & Informatiekunde &lt;olc@cs.ru.nl&gt;</h2>\n"
+				<< "\t<h2>met dank aan Wouter Geraedts &lt;radboud@woutergeraedts.nl&gt;</h2>\n"
 				<< "</header>\n"
 				<< "<br />\n"
 				<< "<div class=\"entry-content\" role=\"main\">\n";
